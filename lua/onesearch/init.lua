@@ -336,7 +336,40 @@ function M.setup(user_conf)
     M.conf.pairs = make_pairs(M.conf.hints)
 end
 
-local last_searched_pattern = {}
+local function save_search_history(history, filename)
+    local file = io.open(filename, "w")
+    if file then
+        for _, pattern in ipairs(history) do
+            file:write(pattern .. "\n")
+        end
+        file:close()
+    end
+end
+local function load_search_history(filename)
+    local history = {}
+    local file = io.open(filename, "r")
+    if file then
+        for line in file:lines() do
+            table.insert(history, line)
+        end
+        file:close()
+    end
+    return history
+end
+
+local nvim_config_path = vim.fn.stdpath('config')
+local search_history_file = nvim_config_path .. '/search_history'
+
+if vim.fn.filereadable(search_history_file) == 0 then
+    local file = io.open(search_history_file, "w")
+    if file then
+        file:close()
+    else
+        print("Nie udało się utworzyć pliku historii wyszukiwań.")
+    end
+end
+
+local last_searched_pattern = load_search_history(search_history_file)
 local current_search_index = 0
 
 local function search()
@@ -511,6 +544,7 @@ local function search()
         return nil
     end
 
+    save_search_history(last_searched_pattern, search_history_file)
     error("Bruh. Too many targets.")
 
     return nil
