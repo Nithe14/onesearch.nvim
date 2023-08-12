@@ -337,7 +337,7 @@ local function search()
     local color = M.conf.hl.prompt_empty
     local last_match = ""
     local errors = ""
-
+    local search_index = 0
     -- do the first dimming manually the others are handled by match_and_show
     dim(visible_lines())
 
@@ -385,10 +385,12 @@ local function search()
             end
 
 	elseif key == M.K_UpArrow then -- show last searched pattern
-            pattern = vim.fn.histget("search", -1) or ""
+	    search_index = search_index - 1 
+            pattern = vim.fn.histget("search", search_index) or ""
 
         elseif key == M.K_DownArrow then -- show first searched pattern
-            pattern = vim.fn.histget("search", 1) or ""
+	    search_index = search_index + 1
+            pattern = vim.fn.histget("search", search_index) or ""
 
         else -- increase
             pattern = pattern .. key
