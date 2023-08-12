@@ -317,9 +317,7 @@ M.conf = {
         prompt_nomatch = "OnesearchRed",
     },
     prompt = ">>> Search: ",
-    hints = { "a", "s", "d", "f", "h", "j", "k", "l", "w", "e", "r", "u", "i", "o", "x", "c", "n", "m" },
-    save_search_history = false,
-    search_history_file_path = vim.fn.stdpath('config') .. "/search_history"
+    hints = { "a", "s", "d", "f", "h", "j", "k", "l", "w", "e", "r", "u", "i", "o", "x", "c", "n", "m" }
 }
 M.conf.pairs = make_pairs(M.conf.hints)
 M.K_Esc = api.nvim_replace_termcodes('<Esc>', true, false, true)
@@ -336,15 +334,6 @@ M.debug_info = nil
 function M.setup(user_conf)
     M.conf = vim.tbl_deep_extend("force", M.conf, user_conf or {})
     M.conf.pairs = make_pairs(M.conf.hints)
-    
-    --force user config for search history 
-    if user_conf and user_conf.save_search_history ~= nil then
-        M.conf.save_search_history = user_conf.save_search_history
-    end
-    
-    if user_conf and user_conf.search_history_file_path ~= nil then
-        M.conf.search_history_file_path = user_conf.search_history_file_path
-    end
 end
 
 local function save_search_history(history, filename)
@@ -368,15 +357,24 @@ local function load_search_history(filename)
     return history
 end
 
+local nvim_config_path = vim.fn.stdpath('config')
+local search_history_file = nvim_config_path .. '/search_history'
 
-local last_searched_pattern
+if vim.fn.filereadable(search_history_file) == 0 then
+    local file = io.open(search_history_file, "w")
+    if file then
+        file:close()
+    else
+        print("Nie udało się utworzyć pliku historii wyszukiwań.")
+    end
+end
 
+local last_searched_pattern = load_search_history(search_history_file)
 local current_search_index = 0
 
 local function search()
     if M.conf.save_search_history then
-	    last_searched_pattern = vim.fn.getreg('/')
-            --last_searched_pattern = load_search_history(M.conf.search_history_file_path)
+	    last_searched_pattern = load_search_history(M.conf.search_history_file_path)
     else
     	last_searched_pattern = {}
     end
@@ -406,8 +404,7 @@ local function search()
 	    		current_search_index = #last_searched_pattern
 		end
 		if M.conf.save_search_history then
-			vim.fn.setreg('/', last_searched_pattern)
-                            --save_search_history(last_searched_pattern, M.conf.search_history_file_path)
+			    save_search_history(last_searched_pattern, M.conf.search_history_file_path)
 		end
             break -- accept
         elseif key == M.K_TAB then -- next
@@ -555,6 +552,7 @@ local function search()
         return nil
     end
 
+    save_search_history(last_searched_pattern, search_history_file)
     error("Bruh. Too many targets.")
 
     return nil
