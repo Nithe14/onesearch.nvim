@@ -374,7 +374,7 @@ local current_search_index = 0
 
 local function search()
     if M.conf.save_search_history then
-	    load_search_history = vim.fn.getreg('/')
+	    last_searched_pattern = vim.fn.getreg('/')
 	    --last_searched_pattern = load_search_history(M.conf.search_history_file_path)
     else
     	last_searched_pattern = {}
