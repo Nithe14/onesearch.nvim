@@ -405,7 +405,7 @@ local function search()
 	    		current_search_index = #last_searched_pattern
 		end
 		if M.conf.save_search_history then
-			--vim.fn.setreg('/', load_search_history)
+			vim.fn.setreg('/', load_search_history)
 			save_search_history(last_searched_pattern, M.conf.search_history_file_path)
 		end
             break -- accept
