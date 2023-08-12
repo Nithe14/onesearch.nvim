@@ -386,7 +386,8 @@ local function search()
 
 	elseif key == M.K_UpArrow then -- show last searched pattern
 	    search_index = search_index - 1 
-            pattern = vim.fn.histget("search", search_index) or ""
+	    pattern = vim.fn.histget("search")
+            --pattern = vim.fn.histget("search", search_index) or ""
 
         elseif key == M.K_DownArrow then -- show first searched pattern
 	    search_index = search_index + 1
