@@ -374,7 +374,8 @@ local current_search_index = 0
 
 local function search()
     if M.conf.save_search_history then
-	    last_searched_pattern = load_search_history(M.conf.search_history_file_path)
+	    load_search_history = vim.fn.getreg('/')
+	    --last_searched_pattern = load_search_history(M.conf.search_history_file_path)
     else
     	last_searched_pattern = {}
     end
@@ -404,7 +405,8 @@ local function search()
 	    		current_search_index = #last_searched_pattern
 		end
 		if M.conf.save_search_history then
-			    save_search_history(last_searched_pattern, M.conf.search_history_file_path)
+			vim.fn.setreg('/', load_search_history)
+			    --save_search_history(last_searched_pattern, M.conf.search_history_file_path)
 		end
             break -- accept
         elseif key == M.K_TAB then -- next
