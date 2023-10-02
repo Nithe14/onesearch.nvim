@@ -330,6 +330,8 @@ M.K_TAB = api.nvim_replace_termcodes('<Tab>', true, false, true)
 M.K_STAB = api.nvim_replace_termcodes('<S-Tab>', true, false, true)
 M.K_UpArrow = api.nvim_replace_termcodes('<Up>', true, false, true)
 M.K_DownArrow = api.nvim_replace_termcodes('<Down>', true, false, true)
+M.K_RightArrow = api.nvim_replace_termcodes('<Right>', true, false, true)
+M.K_LeftArrow = api.nvim_replace_termcodes('<Left>', true, false, true)
 M.K_Paste = api.nvim_replace_termcodes('<C-V>', true, false, true);
 M.last_search = ""
 M.debug = false
@@ -408,6 +410,16 @@ local function search()
 		    search_index = 0
 	    end
             pattern = vim.fn.histget("search", search_index) or ""
+
+        elseif key == M.K_LeftArrow then
+	   local current_pos = vim.fn.getpos(".")
+           current_pos[3] = current_pos[3] - 1
+	   vim.fn.setpos(".", current_pos)
+
+        elseif key == M.K_RightArrow then
+	   local current_pos = vim.fn.getpos(".")
+           current_pos[3] = current_pos[3] + 1
+	   vim.fn.setpos(".", current_pos)
 
 	elseif key == M.K_Paste then
 	    pattern = pattern .. getClipboardText()
