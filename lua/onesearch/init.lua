@@ -415,7 +415,7 @@ local function search()
 	   local current_col = vim.api.nvim_win_get_cursor(0)[2]
 	   local current_row = vim.api.nvim_win_get_cursor(0)[1]
            current_col = current_col - 1
-	   nvim_win_set_cursor(0, (current_row, current_col))
+	   api.nvim_win_set_cursor(0, (current_row, current_col))
 
         elseif key == M.K_RightArrow then
 	   local current_pos = vim.fn.getpos(".")
