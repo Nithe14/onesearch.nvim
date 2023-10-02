@@ -415,11 +415,13 @@ local function search()
 	   local current_pos = vim.fn.getpos(".")
            current_pos[3] = current_pos[3] - 1
 	   vim.fn.setpos(".", current_pos)
+	   vim.cmd('norm! h')
 
         elseif key == M.K_RightArrow then
 	   local current_pos = vim.fn.getpos(".")
            current_pos[3] = current_pos[3] + 1
 	   vim.fn.setpos(".", current_pos)
+	   vim.cmd('norm! l')
 
 	elseif key == M.K_Paste then
 	    pattern = pattern .. getClipboardText()
