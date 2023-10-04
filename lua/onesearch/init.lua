@@ -346,7 +346,6 @@ local function search(pattern)
     local errors = ""
     if pattern ~= nil then
         matches, next, color_head = visible_matches(pattern)
-        show(matches, color_head)
         if #matches == 0 and next then
             api.nvim_win_set_cursor(0, { next.line + 1, next.start_col })
             -- #matches > 0 since it contains the prev next
