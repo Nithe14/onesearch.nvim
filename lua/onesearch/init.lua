@@ -345,6 +345,25 @@ local function search(pattern)
     if pattern ~= nil then
         matches, next, color_head = visible_matches(pattern)
         show(matches, color_head)
+        if #matches == 0 and next then
+            api.nvim_win_set_cursor(0, { next.line + 1, next.start_col })
+            -- #matches > 0 since it contains the prev next
+            matches, next, color_head = visible_matches(pattern)
+            show(matches, color_head)
+        end
+
+        if #matches > 0 then
+            last_match = pattern
+            errors = ""
+        else
+            -- #matches == 0
+            if not next then
+                -- either the pattern is empty or I have messed up something
+                errors = pattern:sub(#last_match + 1):gsub(" ", "_")
+                matches, next, color_head = visible_matches(last_match, errors)
+                show(matches, color_head, M.conf.hl.error)
+            end
+        end
     else
 	pattern = ''
     end
