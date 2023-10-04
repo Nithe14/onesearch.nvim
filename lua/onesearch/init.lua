@@ -341,11 +341,14 @@ function M.setup(user_conf)
 end
 
 local function search(pattern)
+    local matches, key, next, color_head
     if pattern == nil then
     	pattern = ''
+    else
+	matches, next, color_head = visible_matches(pattern)
+        show(matches, color_head)
     end
 
-    local matches, key, next, color_head
     local stack = {}
     local color = M.conf.hl.prompt_empty
     local last_match = pattern -- ""
