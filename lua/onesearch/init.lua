@@ -348,7 +348,7 @@ local function search(pattern)
     local matches, key, next, color_head
     local stack = {}
     local color = M.conf.hl.prompt_empty
-    local last_match = ""
+    local last_match = pattern -- ""
     local errors = ""
     local search_index = 0
     -- do the first dimming manually the others are handled by match_and_show
