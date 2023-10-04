@@ -342,6 +342,7 @@ end
 
 local function search(pattern)
     local matches, key, next, color_head
+    local last_match = pattern or ""
     if pattern ~= nil then
         matches, next, color_head = visible_matches(pattern)
         show(matches, color_head)
@@ -369,7 +370,6 @@ local function search(pattern)
     end
     local stack = {}
     local color = M.conf.hl.prompt_empty
-    local last_match = pattern or ""
     local errors = ""
     local search_index = 0
     -- do the first dimming manually the others are handled by match_and_show
