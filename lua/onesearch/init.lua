@@ -571,7 +571,7 @@ function M.search(pattern)
 
     M.VimContext:install()
 
-    local ok, retval = pcall(search)
+    local ok, retval = pcall(search(pattern))
 
     if not ok then
         if M.debug then
