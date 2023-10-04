@@ -340,8 +340,10 @@ function M.setup(user_conf)
     M.conf.pairs = make_pairs(M.conf.hints)
 end
 
-local function search()
-    local pattern = ''
+local function search(pattern)
+    if pattern == nil then
+    	pattern = ''
+    end
 
     local matches, key, next, color_head
     local stack = {}
