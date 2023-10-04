@@ -342,16 +342,15 @@ end
 
 local function search(pattern)
     local matches, key, next, color_head
-    if pattern == nil then
-    	pattern = ''
-    else
-	matches, next, color_head = visible_matches(pattern)
+    if pattern ~= nil then
+        matches, next, color_head = visible_matches(pattern)
         show(matches, color_head)
+    else
+	pattern = ''
     end
-
     local stack = {}
     local color = M.conf.hl.prompt_empty
-    local last_match = pattern -- ""
+    local last_match = ""
     local errors = ""
     local search_index = 0
     -- do the first dimming manually the others are handled by match_and_show
@@ -574,7 +573,7 @@ function M.search(pattern)
 
     M.VimContext:install()
 
-    local ok, retval = pcall(search(pattern))
+    local ok, retval = pcall(search, pattern)
 
     if not ok then
         if M.debug then
