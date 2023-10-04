@@ -554,7 +554,7 @@ function M.VimContext:restore()
     self.stored = {}
 end
 
-function M.search()
+function M.search(pattern)
     M.set_colors()
     M.debug_info = nil
 
