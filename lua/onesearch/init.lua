@@ -342,7 +342,7 @@ end
 
 local function search(pattern)
     local matches, key, next, color_head
-    local last_match = pattern or ""
+    local last_match = ""
     local errors = ""
     if pattern ~= nil then
         matches, next, color_head = visible_matches(pattern)
@@ -361,7 +361,7 @@ local function search(pattern)
             -- #matches == 0
             if not next then
                 -- either the pattern is empty or I have messed up something
-                errors = pattern:sub(#last_match - 1):gsub(" ", "_")
+                errors = pattern:sub(#last_match + 1):gsub(" ", "_")
                 matches, next, color_head = visible_matches(last_match, errors)
                 show(matches, color_head, M.conf.hl.error)
             end
